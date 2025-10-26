@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { pages } from "../constants";
+import { pageList } from "../pageList";
 
 const PageLink = ({ path, title ,idx}) => {
   return (
@@ -16,7 +16,7 @@ const Home = () => {
     <div>
     
       <ul className="flex flex-col gap-4">
-        {pages.map((page, i) => {
+        {pageList.map((page, i) => {
           return <PageLink path={page.path} title={page.title} key={i} idx={i+1}/>;
         })}
       </ul>

@@ -1,27 +1,29 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-// pages
-import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
-import Restaurant from "./pages/Restaurant/Restaurant";
-import Pomodoro from "./pages/Pomodoro/Pomodoro";
-import CustomFetch from "./pages/CustomFetch/CustomFetch";
-// components
 import { MainLayout } from "./components/common/MainLayout";
+import { pageList } from "./pageList";
 
-import { paths } from "./constants";
-import Test from "./pages/Test/Test";
+const gePageRoutes = ({ page }) => {
+  if (page?.nestedPages?.length > 0) {
+    return (
+      <Route path={page.path} element={page.element} key={page.id}>
+        {page.nestedPages.map((page) => {
+          return gePageRoutes({ page });
+        })}
+      </Route>
+    );
+  }
+
+  return <Route path={page.path} element={page.element} key={page.id} />;
+};
 
 function App() {
   return (
     <Router>
       <MainLayout>
         <Routes>
-          <Route path={paths.home} element={<Home />} />
-          <Route path={paths.notFound} element={<NotFound />} />
-          <Route path={paths.restaurantP} element={<Restaurant />} />
-          <Route path={paths.customFetch} element={<CustomFetch />} />
-          <Route path={paths.pomodoro} element={<Pomodoro />} />
-          <Route path={paths.test} element={<Test />} />
+          {pageList.map((page) => {
+            return gePageRoutes({ page });
+          })}
         </Routes>
       </MainLayout>
     </Router>
